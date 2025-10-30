@@ -15,8 +15,7 @@ def validar_correo(correo):
     Returns:
         bool: True si el correo es válido, False en caso contrario
     """
-    # TODO: crear la expresión regular para validar el correo
-    patron = ""
+    patron = r"^[\w\.-]+@[\w\.-]+\.\w+$"
     return bool(re.match(patron, correo))
 
 def formatear_duracion(minutos):
@@ -29,8 +28,9 @@ def formatear_duracion(minutos):
     Returns:
         str: Duración formateada como hh:mm
     """
-    # TODO: pendiente de implementar
-    pass 
+    horas = minutos // 60
+    minutos_restantes = minutos % 60
+    return f"{horas:02}:{minutos_restantes:02}"
 
 def generar_slug(texto):
     """
@@ -43,16 +43,21 @@ def generar_slug(texto):
     Returns:
         str: Slug generado
     """
-    # TODO: Convertir a minúsculas
+    # Convertir a minúsculas
+    texto = texto.lower()
     slug = texto
     
-    # TODO: Reemplazar espacios con guiones
-    
-    # TODO: Eliminar caracteres no alfanuméricos (excepto guiones)
-    
-    # TODO: Reemplazar múltiples guiones con uno solo
-    
-    # TODO: Eliminar guiones al inicio y final
+    # Reemplazar espacios con guiones
+    slug = slug.replace(" ", "-")
+
+    # Eliminar caracteres no alfanuméricos (excepto guiones)
+    slug = re.sub(r"[^\w\-]", "", slug)
+
+    # Reemplazar múltiples guiones con uno solo
+    slug = re.sub(r"\-+", "-", slug)
+
+    # Eliminar guiones al inicio y final
+    slug = slug.strip("-")
     
     return slug
 
@@ -63,9 +68,7 @@ def obtener_año_actual():
     Returns:
         int: Año actual
     """
-    # TODO: pendiente por implementar
-    return ""
-
+    return datetime.now().year
 def validar_año(año):
     """
     Valida que un año sea válido (no futuro y no muy antiguo).
